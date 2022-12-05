@@ -119,6 +119,14 @@ BinarySearchTree<ActressActor>ReadActorActressFile(string& filepath)
 
 //**** attempting to print csv
 
+/*
+		year
+		award
+		winner
+		name 
+		film
+*/
+
 // *****
 
 // ********************************** for the movies ***********************************

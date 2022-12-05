@@ -39,10 +39,26 @@ using namespace std;
 //
 //}
 
+//int readFiles()
+//{
+//    BinarySearchTree<ActressActor> actress_actor;
+//    BinarySearchTree<Picture> pictures;
+//
+//    string actressActorFilePath = "actor_actress.csv";
+//    string picturesFilePath = "pictures.csv";
+//
+//    //reads the input file path and does processing
+//    ReadActorActressFile(actressActorFilePath, actress_actor);
+//    ReadPictures(picturesFilePath, pictures);
+//
+//    return 1;
+//}
+
 // *********************************************************
 
-int mainMenu()
+int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Picture> pictures)
 {
+    
     int mainMenuInput;
  
     //for all these first need to prompt the user which db - movie or actor
@@ -71,7 +87,9 @@ int mainMenu()
         if (inputMovieDB == 1)
         {
             cout << "menu 1 movie db - add(1)" << endl;
-            //add a record function          
+            
+            //call a function to add an item
+            AddUserPictureObj(pictures);
 
         }
         else if (inputMovieDB == 2)
@@ -112,7 +130,7 @@ int mainMenu()
             }
             else
             {
-                mainMenu();
+                mainMenu(actress_actor, pictures);
             }
 
             
@@ -125,11 +143,11 @@ int mainMenu()
         }
         else if (inputMovieDB == 4)
         {
-            mainMenu();
+            mainMenu(actress_actor, pictures);
         }
         else
         {
-            mainMenu();
+            mainMenu(actress_actor, pictures);
         }
     }
     //****** actor db menu *****
@@ -149,9 +167,10 @@ int mainMenu()
         if (inputActorDB == 1)
         {
             cout << "actor db - add record 1" << endl;
-
+           
             //call a function to add an item
-            AddUserActorObj();
+            AddUserActorObj(actress_actor);
+            
         }
 
         else if (inputActorDB == 2)
@@ -191,7 +210,7 @@ int mainMenu()
             }
             else
             {
-                mainMenu();
+                mainMenu(actress_actor, pictures);
             }
 
           
@@ -207,12 +226,12 @@ int mainMenu()
 
         else if (inputActorDB == 4)
         {
-            mainMenu();
+            mainMenu(actress_actor, pictures);
         }
 
         else
         {
-            mainMenu();
+            mainMenu(actress_actor, pictures);
         }
 
     }
@@ -244,12 +263,13 @@ int main()
     string actressActorFilePath = "actor_actress.csv";
     string picturesFilePath = "pictures.csv";
 
-    cout << mainMenu() << endl;
+    
 
     //reads the input file path and does processing
     ReadActorActressFile(actressActorFilePath, actress_actor);
     ReadPictures(picturesFilePath, pictures);
 
+    cout << mainMenu(actress_actor, pictures) << endl;
     
 
     //testing area

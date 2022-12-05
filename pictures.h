@@ -26,7 +26,7 @@ struct Picture
 		name = data[0];
 		year = stoi(data[1]);
 		
-		//this is the problem child - i added 0's and replaced the - ... is that cheating?
+		//this is the problem child
 		nominations = stoi(data[2]);
 		
 		rating = stoi(data[3]);
@@ -35,7 +35,7 @@ struct Picture
 		genre2 = data[6];
 		release = data[7];
 
-		//problem child -  i added 0's to the blank fields ... is that cheating?
+		//problem child
 		metacritic = stoi(data[8]);
 		
 		synopsis = data[9];
@@ -44,6 +44,8 @@ struct Picture
 	friend ostream& operator << (ostream& out, Picture& pic)
 	{
 		//spits out information of the particular actor
+
+		out << "**************************************" << endl;
 
 		out << "Name: " << pic.name << endl;
 		out << "Year: " << pic.year << endl;

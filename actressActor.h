@@ -30,11 +30,14 @@ struct ActressActor //publicly accessible
 	{
 		//spits out information of the particular actor
 
+		out << "*********************" << endl;
+
 		out << "Name: " << actor.name << endl;
 		out << "Film: " << actor.film << endl;
 		out << "Year: " << actor.year << endl;
 		out << "Award: " << actor.award << endl;
 		out << "Winner: " << actor.winner << endl;
+
 
 		return out;
 	}

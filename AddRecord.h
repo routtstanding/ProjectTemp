@@ -35,7 +35,7 @@ bool checkBool(string strr)
 
 // *********************************************************
 
-BinarySearchTree<ActressActor> AddUserActorObj()
+void AddUserActorObj(BinarySearchTree<ActressActor> actress_actor)
 {
     //this is for adding a record
     string userActorInput;
@@ -87,7 +87,131 @@ BinarySearchTree<ActressActor> AddUserActorObj()
     
 
     //insert into tree
-    /*actress_actor.Insert(userActor);
+    actress_actor.Insert(userActor);
 
-    actress_actor.PrintTree();*/
+    actress_actor.PrintTree();
+};
+
+// ******************************************
+
+void AddUserPictureObj(BinarySearchTree<Picture> pictures)
+{
+
+
+    //this is for adding a record
+    string userPictureInput;
+
+    vector<string> userPictureTokens;
+
+    cout << "name: ";
+    cin >> userPictureInput;
+       
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "year: ";
+    cin >> userPictureInput;
+
+    //check if int
+    while (!checkNumber(userPictureInput))
+    {
+        cout << "invalid, try again: " << endl;
+        cin >> userPictureInput;
+    }
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "nominations: ";
+    cin >> userPictureInput;
+
+    //check if int
+    while (!checkNumber(userPictureInput))
+    {
+        cout << "invalid, try again: " << endl;
+        cin >> userPictureInput;
+    }
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "rating: ";
+    cin >> userPictureInput;
+
+    //check if int
+    while (!checkNumber(userPictureInput))
+    {
+        cout << "invalid, try again: " << endl;
+        cin >> userPictureInput;
+    }
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "duration: ";
+    cin >> userPictureInput;
+    //validate float!!!!
+
+    //check if int
+    while (!checkNumber(userPictureInput))
+    {
+        cout << "invalid, try again: " << endl;
+        cin >> userPictureInput;
+    }
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "genre1: ";
+    cin >> userPictureInput;
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "genre2: ";
+    cin >> userPictureInput;
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "release: ";
+    cin >> userPictureInput;
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "metacritic score: ";
+    cin >> userPictureInput;
+
+    //check if int
+    while (!checkNumber(userPictureInput))
+    {
+        cout << "invalid, try again: " << endl;
+        cin >> userPictureInput;
+    }
+
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+
+    cout << endl << "synopsis: ";
+    cin >> userPictureInput;
+    
+    userPictureTokens.push_back(userPictureInput);
+
+    //
+    Picture userPicture(userPictureTokens); //we've created a user movie obj
+
+    //insert into tree
+    pictures.Insert(userPicture);
+
+    pictures.PrintTree();
 };
