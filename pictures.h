@@ -23,6 +23,7 @@ struct Picture
 	//constructor
 	explicit Picture(vector<string> data)
 	{
+
 		name = data[0];
 		year = stoi(data[1]);
 		
@@ -64,9 +65,6 @@ struct Picture
 	{
 		return (this->name < pic.name);
 	}
-
-	//create an "add" function for adding to the database
-	//prompt user to supply the fields
-	//then append to the list
+	//i think for sorting what i would like to do is have the "this->name" be defined by a template
 
 };

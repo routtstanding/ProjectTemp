@@ -99,13 +99,9 @@ void ReadActorActressFile(std::string& filepath, BinarySearchTree<ActressActor>&
 
 		ActressActor actressActor(lineTokens);
 
-		/*
-		//printing for debug
-		cout << actressActor << endl;
-		cout << " -------------------" << endl;
-		*/
-
-		bst.Insert(actressActor); //insert the actors object into the bst
+		//insert the actors object into the bst
+		bst.Insert(actressActor);
+		
 	}
 
 }
@@ -117,17 +113,6 @@ BinarySearchTree<ActressActor>ReadActorActressFile(string& filepath)
 	return temp;
 }
 
-//**** attempting to print csv
-
-/*
-		year
-		award
-		winner
-		name 
-		film
-*/
-
-// *****
 
 // ********************************** for the movies ***********************************
 

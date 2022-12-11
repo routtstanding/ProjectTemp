@@ -14,6 +14,7 @@
 #include <algorithm>
 
 #include "Exceptions.h"
+#include "Visitor.h"
 
 using namespace std;
 
@@ -195,11 +196,19 @@ public:
         _remove(x, _root);
     }
 
+    //accept function for visitor class
+    void Accept(Visitor<Comparable> &visitor)
+    {
+        //pass the visitor to the root of the tree
+
+        _root->Accept(visitor);
+    }
+
 
 private:
     struct BinaryNode
     {
-        //int data; //MR was here
+      
         Comparable element;
         BinaryNode* left;
         BinaryNode* right;
@@ -209,6 +218,23 @@ private:
 
         BinaryNode(Comparable&& theElement, BinaryNode* lt, BinaryNode* rt)
             : element{ std::move(theElement) }, left{ lt }, right{ rt } { }
+
+        // **
+        
+        void Accept(Visitor<Comparable> &visitor)
+        {
+            if (this == nullptr) {
+                return;
+            }
+           
+            //recurvisely visit left and right - visit everything
+            left->Accept(visitor);
+
+            //visit the first element
+            visitor.visit(element);
+
+            right->Accept(visitor);
+        }
     };
 
     BinaryNode* _root;
@@ -331,14 +357,6 @@ private:
         }
         return (current);
 
-        //michelle routt here
-        //basically what i want to do is recursively loop through the entire BST
-        //find whatever node is NULL
-        //the whatever node's left node is "null", this will be the min val
-
-        //the return needs to be an int for the main
-
-
     }
 
 
@@ -355,13 +373,6 @@ private:
             current = current->right;
         }
         return (current);
-
-        //michelle routt here
-         //basically what i want to do is recursively loop through the entire BST
-         //find whatever node is NULL
-         //the whatever node's RIGHT node is "null", this will be the min val
-
-
 
 
     }
@@ -404,8 +415,6 @@ private:
         _printTreePostOrder(t->right, out);
 
         out << t->element << " ";
-
-        //i think the tree given in the main is broken .. should i fix?
 
     }
 

@@ -7,54 +7,16 @@
 #include "fileIO.h"
 #include "BST.h"
 #include "AddRecord.h"
+#include "OutputVisitor.h"
+#include "Visitor.h"
 
 using namespace std;
 
+void searchModifyPictureDB(const std::string& pictureName)
+{
+    cout << "entering movie: " << pictureName << endl;
+}
 
-//bool checkNumber(string str)
-//{
-//    for (int i = 0; i < str.length(); i++)
-//        if (isdigit(str[i]) == false)
-//            return false;
-//    return true;
-//}
-//
-//bool checkBool(string strr)
-//{
-//
-//    if (strr == "0")
-//    {
-//        //cout << "it's a zero";
-//        return true;
-//    }
-//    else if (strr == "1")
-//    {
-//        //cout << "it's a one";
-//        return true;
-//    }
-//    else {
-//        //cout << "it is neither one nor zero";
-//        return false;
-//    }
-//
-//}
-
-//int readFiles()
-//{
-//    BinarySearchTree<ActressActor> actress_actor;
-//    BinarySearchTree<Picture> pictures;
-//
-//    string actressActorFilePath = "actor_actress.csv";
-//    string picturesFilePath = "pictures.csv";
-//
-//    //reads the input file path and does processing
-//    ReadActorActressFile(actressActorFilePath, actress_actor);
-//    ReadPictures(picturesFilePath, pictures);
-//
-//    return 1;
-//}
-
-// *********************************************************
 
 int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Picture> pictures)
 {
@@ -86,10 +48,13 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
 
         if (inputMovieDB == 1)
         {
-            cout << "menu 1 movie db - add(1)" << endl;
+            //cout << "menu 1 movie db - add(1)" << endl;
             
             //call a function to add an item
             AddUserPictureObj(pictures);
+
+            //return to main
+            mainMenu(actress_actor, pictures);
 
         }
         else if (inputMovieDB == 2)
@@ -110,6 +75,7 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
                 cout << "movie db - search 2 - partial(1)" << endl;
 
                 //prompt user to enter the information
+            
 
                 cout << "Do you want to modify or delete the record?" << endl;
                 cout << "1. Modify" << endl;
@@ -121,7 +87,6 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
             {
                 cout << "movie db - search 2 - complete(2)" << endl;
 
-                //prompt the user to enter information and then have it do something
 
                 cout << "Do you want to modify or delete the record?" << endl;
                 cout << "1. Modify" << endl;
@@ -137,8 +102,33 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
         }
         else if (inputMovieDB == 3)
         {
-            cout << "menu 1 movie db - print csv (3)" << endl;
-            //print the movie db csv       
+            //cout << "menu 1 movie db - print csv (3)" << endl;
+          
+            //call a function to print
+            //**
+            //configures the ofstream
+
+            //ask for filename
+            string userPictureFileName;
+            cout << "enter a file name (movies):" << endl;
+            cin >> userPictureFileName;
+            userPictureFileName = userPictureFileName + ".csv";
+
+            //open the file
+            ofstream outFile;
+            outFile.open(userPictureFileName, ios::out | ios::trunc);
+
+            //write to the file
+            PictureOutputVisitor pictureVisitor = PictureOutputVisitor(outFile);
+            pictures.Accept(pictureVisitor);
+
+            //close the file
+            outFile.close();
+
+            //**
+
+            //return to main
+            mainMenu(actress_actor, pictures);
 
         }
         else if (inputMovieDB == 4)
@@ -170,16 +160,18 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
            
             //call a function to add an item
             AddUserActorObj(actress_actor);
+
+            //return to main
+            mainMenu(actress_actor, pictures);
             
         }
 
         else if (inputActorDB == 2)
         {
-            cout << "actor db - search records" << endl;
 
             cout << "Partial search or Complete?" << endl;
             cout << "1. Partial" << endl;
-            cout << "2. Complete" << endl;
+            cout << "2. Complete [unavailable]" << endl;
 
             int inputSearchType = 0;
 
@@ -187,27 +179,53 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
 
             if (inputSearchType == 1)
             {
-                cout << "actor db - search 2 - partial(1)" << endl;
+                int subSearchPartialActor = 0;
 
                 //prompt user to enter the information
+                string inputSearchTermActor;
+
+                cout << "what are you searching for?" << endl;
+                cin >> inputSearchTermActor;
+
+                //call the search visitor
+                ActorSearchVisitor actorVisitorSearch = ActorSearchVisitor(inputSearchTermActor, actress_actor);
+
+                
+                
+                //****
 
                 cout << "Do you want to modify or delete the record?" << endl;
                 cout << "1. Modify" << endl;
                 cout << "2. Delete" << endl;
                 cout << "3. Main Menu" << endl;
 
-            }
-            else if (inputSearchType == 2)
-            {
-                cout << "actor db - search 2 - complete(2)" << endl;
+                if (subSearchPartialActor == 1)
+                {
+                    cout << "modify" << endl;
+                    mainMenu(actress_actor, pictures);
+                }
+                else if (subSearchPartialActor == 2)
+                {
+                    cout << "delete" << endl;
+                    mainMenu(actress_actor, pictures);
+                }
+                else
+                {
+                    mainMenu(actress_actor, pictures);
+                }
 
-                //prompt the user to enter information and then have it do something
-
-                cout << "Do you want to modify or delete the record?" << endl;
-                cout << "1. Modify" << endl;
-                cout << "2. Delete" << endl;
-                cout << "3. Main Menu" << endl;
             }
+            //else if (inputSearchType == 2)
+            //{
+            //    cout << "actor db - search 2 - complete(2)" << endl;
+
+            //    //prompt the user to enter information and then have it do something
+
+            //    cout << "Do you want to modify or delete the record?" << endl;
+            //    cout << "1. Modify" << endl;
+            //    cout << "2. Delete" << endl;
+            //    cout << "3. Main Menu" << endl;
+            //}
             else
             {
                 mainMenu(actress_actor, pictures);
@@ -219,9 +237,32 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
 
         else if (inputActorDB == 3)
         {
-            cout << "actor db - print csv 3" << endl;
 
             //call a function to print
+            //**
+            //configures the ofstream
+
+            //ask for filename
+            string userActorFileName;
+            cout << "enter a file name (actor):" << endl;
+            cin >> userActorFileName;
+            userActorFileName = userActorFileName + ".csv";
+
+            //open the file
+            ofstream outFile;
+            outFile.open(userActorFileName, ios::out | ios::trunc);
+
+            //write to the file
+            ActorOutputVisitor actorVisitor = ActorOutputVisitor(outFile);
+            actress_actor.Accept(actorVisitor);
+
+            //close the file
+            outFile.close();
+
+            //**
+
+            //return to main
+            mainMenu(actress_actor, pictures);
         }
 
         else if (inputActorDB == 4)
@@ -254,6 +295,13 @@ int mainMenu(BinarySearchTree<ActressActor> actress_actor, BinarySearchTree<Pict
 
 //*******************************************************************************
 
+bool checkString(string str)
+{
+    for (int i = 0; i < str.length(); i++)
+        if (isdigit(str[i]) == false)
+            return false;
+    return true;
+}
 
 int main()
 {
@@ -263,74 +311,23 @@ int main()
     string actressActorFilePath = "actor_actress.csv";
     string picturesFilePath = "pictures.csv";
 
-    
 
     //reads the input file path and does processing
     ReadActorActressFile(actressActorFilePath, actress_actor);
     ReadPictures(picturesFilePath, pictures);
 
-    cout << mainMenu(actress_actor, pictures) << endl;
     
 
+    //! ************** ! uncomment when done testing
+    cout << mainMenu(actress_actor, pictures) << endl;
+
+    
     //testing area
     //actress_actor.PrintTree();
 
-    ////this is for adding a record
-    //string userActorInput;
-
-    //vector<string> userActorTokens;
-
-    //cout << "year: ";
-    //cin >> userActorInput;
-
-    ////check if int
-    //while (!checkNumber(userActorInput))
-    //{
-    //    cout << "invalid, try again: " << endl;
-    //    cin >> userActorInput;
-    //}
-
-
-    //userActorTokens.push_back(userActorInput);
-
-    //cout << endl << "award: ";
-    //cin >> userActorInput;
-
-    //userActorTokens.push_back(userActorInput);
-
-    //cout << endl << "winner: ";
-    //cin >> userActorInput;
-
-    ////check if 1 or 0
-    //while (!checkBool(userActorInput))
-    //{
-    //    cout << "invalid, try again: " << endl;
-    //    cin >> userActorInput;
-    //}
-
-    //userActorTokens.push_back(userActorInput);
-
-    //cout << endl << "name: ";
-    //cin >> userActorInput;
-
-    //userActorTokens.push_back(userActorInput);
-
-    //cout << endl << "film: ";
-    //cin >> userActorInput;
-
-    //userActorTokens.push_back(userActorInput);
-
-    //ActressActor userActor(userActorTokens); //we've created a user actor obj
-
-    //insert into tree
-    /*actress_actor.Insert(userActor);
-
-    actress_actor.PrintTree();*/
-
-    
-
     return 0;
 }
+
 
 //notes
 
